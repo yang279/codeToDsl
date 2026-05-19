@@ -13,7 +13,7 @@ const { parseReactFile, resolveComponents } = require('../codeToDsl/src/react-pa
 const { detectMode } = require('../codeToDsl/src/pipeline');
 
 const DSL_SPEC = fs.readFileSync(
-  path.join(__dirname, '../codeToDsl/设计dsl.md'),
+  path.join(__dirname, '../codeToDsl/dsl-spec.md'),
   'utf8'
 );
 
