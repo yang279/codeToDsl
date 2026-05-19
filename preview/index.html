@@ -8,32 +8,14 @@
 </head>
 <body>
   <div id="app">
-    <div id="left">
-      <div id="toolbar">
-        <button id="uploadBtn">上传文件夹</button>
-        <input type="file" id="folderInput" webkitdirectory multiple hidden />
-        <select id="fileSelect" hidden></select>
-        <span id="fileLabel"></span>
-      </div>
-      <div id="frameWrap">
-        <div id="empty">上传文件夹后在此预览页面</div>
-        <iframe id="frame"></iframe>
-      </div>
+    <div id="toolbar">
+      <button id="uploadBtn">上传文件夹</button>
+      <input type="file" id="folderInput" webkitdirectory multiple hidden />
+      <select id="fileSelect" hidden></select>
     </div>
-    <div id="right">
-      <div id="dsl-header">
-        <span id="dsl-title">DSL 输出</span>
-        <span id="dsl-badge"></span>
-      </div>
-      <div id="dsl-body">
-        <div id="dsl-empty">上传文件夹后自动生成设计 DSL</div>
-        <div id="dsl-loading" hidden>
-          <div class="spinner"></div>
-          <span>解析中，请稍候…</span>
-        </div>
-        <div id="dsl-error" hidden></div>
-        <pre id="dsl-output" hidden></pre>
-      </div>
+    <div id="frameWrap">
+      <div id="empty">上传文件夹后在此预览页面</div>
+      <iframe id="frame"></iframe>
     </div>
   </div>
   <script type="module" src="/src/main.js"></script>

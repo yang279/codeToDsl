@@ -11,16 +11,8 @@ html, body {
 
 #app {
   display: flex;
-  height: 100vh;
-}
-
-/* ── 左侧 ─────────────────────────────────── */
-
-#left {
-  width: 50%;
-  display: flex;
   flex-direction: column;
-  border-right: 1px solid #e5e7eb;
+  height: 100vh;
 }
 
 #toolbar {
@@ -90,112 +82,4 @@ html, body {
   height: 100%;
   border: none;
   display: none;
-}
-
-/* ── 右侧 ─────────────────────────────────── */
-
-#right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: #0f1117;
-  overflow: hidden;
-}
-
-#dsl-header {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  border-bottom: 1px solid #1e2130;
-  background: #161b27;
-}
-
-#dsl-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #c9d1d9;
-  letter-spacing: 0.04em;
-}
-
-#dsl-badge {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-weight: 500;
-}
-
-#dsl-badge.badge-ok  { background: #1a3a2a; color: #4ade80; }
-#dsl-badge.badge-err { background: #3a1a1a; color: #f87171; }
-
-#dsl-body {
-  flex: 1;
-  overflow: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-}
-
-#dsl-empty {
-  margin: auto;
-  color: #4b5563;
-  font-size: 13px;
-}
-
-#dsl-loading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: auto;
-  color: #6b7280;
-  font-size: 13px;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #374151;
-  border-top-color: #6366f1;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-#dsl-error {
-  margin: auto;
-  color: #f87171;
-  font-size: 13px;
-  white-space: pre-wrap;
-}
-
-#dsl-output {
-  flex: 1;
-  margin: 0;
-  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Menlo, monospace;
-  font-size: 12px;
-  line-height: 1.65;
-  color: #e2e8f0;
-  white-space: pre;
-  overflow: auto;
-  background: transparent;
-  border: none;
-}
-
-/* JSON 语法高亮 */
-#dsl-output .jk    { color: #79c0ff; }   /* key   */
-#dsl-output .js    { color: #a5d6ff; }   /* string value */
-#dsl-output .jn    { color: #f2cc60; }   /* number */
-#dsl-output .jb    { color: #ff7b72; }   /* boolean */
-#dsl-output .jnull { color: #8b949e; }   /* null */
-
-#fileLabel {
-  flex: 1;
-  font-size: 12px;
-  color: #6b7280;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
 }
