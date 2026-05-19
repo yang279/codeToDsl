@@ -1,0 +1,16 @@
+{
+  "name": "code-to-dsl",
+  "version": "1.0.0",
+  "description": "将前端产物文件夹转换为设计 DSL JSON",
+  "main": "src/pipeline.js",
+  "bin": {
+    "code-to-dsl": "bin/convert.js"
+  },
+  "scripts": {
+    "convert": "node bin/convert.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "css": "^3.0.0"
+  }
+}

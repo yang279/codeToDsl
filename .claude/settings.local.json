@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Bash(node index.js)",
+      "Bash(curl -s http://localhost:3000/health)",
+      "Bash(pkill -f \"node index.js\")",
+      "Bash(npm run *)",
+      "Bash(node test/test-parse.js)",
+      "Bash(node test/test-llm-input.js)",
+      "Bash(node test/test-vue-dist.js)",
+      "Bash(node test/test-vue-src.js)",
+      "Bash(node test/test-vue-llm-input.js)",
+      "Bash(node -e ' *)",
+      "Bash(node test/test-html.js)",
+      "Bash(node test/test-vue.js)",
+      "Bash(node test/test-react.js)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(python3 -m json.tool)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}

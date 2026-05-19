@@ -1,0 +1,19 @@
+{
+  "name": "code-dsl",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "private": true,
+  "workspaces": [
+    "server",
+    "codeToDsl",
+    "preview"
+  ],
+  "scripts": {
+    "server": "npm run start --workspace=server",
+    "server:dev": "npm run dev --workspace=server",
+    "convert": "node codeToDsl/bin/convert.js",
+    "preview:dev": "npm run dev --workspace=preview"
+  }
+}

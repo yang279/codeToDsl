@@ -1,0 +1,138 @@
+.page {
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+}
+
+.sidebar {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sideNav {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navItem {
+  height: 44px;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 14px;
+  color: #666666;
+}
+
+.navItemActive {
+  background-color: #eef2ff;
+  color: #4f46e5;
+  font-weight: 700;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.statsRow {
+  display: flex;
+  gap: 16px;
+}
+
+.statCard {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #888888;
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.statChange {
+  font-size: 12px;
+  color: #aaaaaa;
+}
+
+.section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.projectList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.projectItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.projectIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.projectMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.projectName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.projectDesc {
+  font-size: 12px;
+  color: #aaaaaa;
+}
