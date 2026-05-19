@@ -59,6 +59,10 @@ html, body {
   border-color: #4f46e5;
 }
 
+#spacer {
+  flex: 1;
+}
+
 #frameWrap {
   flex: 1;
   position: relative;

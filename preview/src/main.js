@@ -1,6 +1,8 @@
 import { renderHtml } from './render-html.js';
 import { renderVue }  from './render-vue.js';
 
+const SERVER = 'http://localhost:3000';
+
 const uploadBtn   = document.getElementById('uploadBtn');
 const folderInput = document.getElementById('folderInput');
 const fileSelect  = document.getElementById('fileSelect');
@@ -8,6 +10,34 @@ const frame       = document.getElementById('frame');
 const empty       = document.getElementById('empty');
 
 const fileMap = new Map();
+
+async function sendToServer() {
+  const htmlEntries = [...fileMap.entries()].filter(([p]) => p.endsWith('.html'));
+  const cssEntries  = [...fileMap.entries()].filter(([p]) => p.endsWith('.css'));
+  if (htmlEntries.length === 0) return;
+
+  const selected = fileSelect.value;
+  const [, htmlEntry] = (selected?.endsWith('.html') && fileMap.get(selected))
+    ? [selected, fileMap.get(selected)]
+    : htmlEntries[0];
+
+  const html = await htmlEntry.file.text();
+  const cssTexts = await Promise.all(cssEntries.map(([, { file }]) => file.text()));
+  const css = cssTexts.join('\n') || undefined;
+
+  try {
+    const resp = await fetch(`${SERVER}/v1/code-to-dsl`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ html, css }),
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    console.log('[DSL]', data.dsl);
+  } catch (err) {
+    console.error('[DSL error]', err.message);
+  }
+}
 let currentBlobUrl = null;
 
 // ── iframe ────────────────────────────────────────────────────────────────────
@@ -76,6 +106,7 @@ folderInput.addEventListener('change', () => {
   }
 
   populateSelect();
+  sendToServer();
 });
 
 fileSelect.addEventListener('change', () => renderFile(fileSelect.value));
