@@ -7,13 +7,11 @@
   "private": true,
   "workspaces": [
     "server",
-    "codeToDsl",
-    "preview"
+    "codeToDsl"
   ],
   "scripts": {
     "server": "npm run start --workspace=server",
     "server:dev": "npm run dev --workspace=server",
-    "convert": "node codeToDsl/bin/convert.js",
-    "preview:dev": "npm run dev --workspace=preview"
+    "convert": "node codeToDsl/bin/convert.js"
   }
 }

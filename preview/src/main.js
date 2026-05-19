@@ -1,7 +1,7 @@
 import { renderHtml } from './render-html.js';
 import { renderVue }  from './render-vue.js';
 
-const SERVER = 'http://localhost:3000';
+const SERVER = '';
 
 const uploadBtn   = document.getElementById('uploadBtn');
 const folderInput = document.getElementById('folderInput');

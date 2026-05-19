@@ -18,7 +18,9 @@
       "Bash(node test/test-react.js)",
       "Bash(curl -s http://localhost:5173)",
       "Bash(python3 -m json.tool)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(cp -r /Users/ucd/Desktop/code-dsl/server/public/index.html /Users/ucd/Desktop/code-dsl/preview/index.html)",
+      "Bash(cp -r /Users/ucd/Desktop/code-dsl/server/public/src/* /Users/ucd/Desktop/code-dsl/preview/src/)"
     ]
   }
 }
