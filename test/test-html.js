@@ -1,30 +1,50 @@
-/**
- * 测试 HTML 解析链路：crawler → html-parser → 中间树 → LLM 输入预览
- */
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
-const { crawl } = require('../codeToDsl/src/crawler');
-const { parseCssFiles, parseHtml } = require('../codeToDsl/src/html-parser');
+const http = require('http');
 
-const DSL_SPEC = fs.readFileSync(path.join(__dirname, '../codeToDsl/设计dsl.md'), 'utf8');
+const SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000';
 const FIXTURE = path.join(__dirname, 'fixtures/html');
 
-console.log('=== [1] crawler ===');
-const files = crawl(FIXTURE);
-console.log('HTML:', files.html);
-console.log('CSS: ', files.css);
+function post(body) {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify(body);
+    const req = http.request(
+      { hostname: 'localhost', port: 3000, path: '/v1/code-to-dsl', method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) } },
+      (res) => {
+        let buf = '';
+        res.on('data', (c) => (buf += c));
+        res.on('end', () => resolve(JSON.parse(buf)));
+      }
+    );
+    req.on('error', reject);
+    req.write(data);
+    req.end();
+  });
+}
 
-console.log('\n=== [2] styleMap ===');
-const styleMap = parseCssFiles(files.css);
-console.log(JSON.stringify(styleMap, null, 2));
+async function main() {
+  const htmlFile = path.join(FIXTURE, 'index.html');
+  const cssFile  = path.join(FIXTURE, 'style.css');
 
-console.log('\n=== [3] 中间树 ===');
-const tree = parseHtml(files.html[0], styleMap);
-console.log(JSON.stringify(tree, null, 2));
+  const html = fs.readFileSync(htmlFile, 'utf8');
+  const css  = fs.existsSync(cssFile) ? fs.readFileSync(cssFile, 'utf8') : undefined;
 
-console.log('\n=== [4] LLM 输入预览 ===');
-const userMessage = JSON.stringify(tree, null, 2);
-const systemPrompt = `你是设计稿解析引擎...\n${DSL_SPEC}`;
-console.log(`system prompt: ~${Math.ceil(systemPrompt.length / 4)} tokens`);
-console.log(`user message:  ~${Math.ceil(userMessage.length / 4)} tokens`);
-console.log(`合计估算:       ~${Math.ceil((systemPrompt.length + userMessage.length) / 4)} tokens`);
+  console.log(`HTML: ~${Math.ceil(html.length / 4)} tokens`);
+  if (css) console.log(`CSS:  ~${Math.ceil(css.length / 4)} tokens`);
+
+  console.log('\n调用 /v1/code-to-dsl ...');
+  const resp = await post({ html, css });
+
+  if (resp.error) {
+    console.error('错误:', resp.error);
+    process.exit(1);
+  }
+
+  console.log('\n=== DSL 输出 ===');
+  console.log(JSON.stringify(resp.dsl, null, 2));
+}
+
+main().catch((err) => { console.error(err.message); process.exit(1); });

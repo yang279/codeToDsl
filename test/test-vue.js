@@ -1,37 +1,61 @@
-/**
- * 测试 Vue SFC 解析链路：crawler → vue-parser → 中间树 → LLM 输入预览
- */
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
-const { crawl } = require('../codeToDsl/src/crawler');
-const { parseVueFile, extractSfcBlocks, parseSfcStyles } = require('../codeToDsl/src/vue-parser');
+const http = require('http');
 
-const DSL_SPEC = fs.readFileSync(path.join(__dirname, '../codeToDsl/设计dsl.md'), 'utf8');
-const FIXTURE = path.join(__dirname, 'fixtures/vue-src');
+const FIXTURE = path.join(__dirname, 'fixtures/vue-src/src');
 
-console.log('=== [1] crawler ===');
-const files = crawl(FIXTURE);
-console.log('Vue:', files.vue);
+function findFiles(dir, ext) {
+  const result = [];
+  function walk(current) {
+    let entries;
+    try { entries = fs.readdirSync(current, { withFileTypes: true }); } catch { return; }
+    for (const e of entries) {
+      const full = path.join(current, e.name);
+      if (e.isDirectory()) walk(full);
+      else if (e.name.endsWith(ext)) result.push(full);
+    }
+  }
+  walk(path.resolve(dir));
+  return result;
+}
 
-const vueFile = files.vue[0];
-const raw = fs.readFileSync(vueFile, 'utf8');
+function post(body) {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify(body);
+    const req = http.request(
+      { hostname: 'localhost', port: 3000, path: '/v1/code-to-dsl', method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(data) } },
+      (res) => {
+        let buf = '';
+        res.on('data', (c) => (buf += c));
+        res.on('end', () => resolve(JSON.parse(buf)));
+      }
+    );
+    req.on('error', reject);
+    req.write(data);
+    req.end();
+  });
+}
 
-console.log('\n=== [2] SFC 块提取 ===');
-const { template, styles } = extractSfcBlocks(raw);
-console.log('--- template ---\n', template);
-console.log('--- styles ---\n', styles);
+async function main() {
+  const vueFiles = findFiles(FIXTURE, '.vue');
 
-console.log('\n=== [3] styleMap（scoped hash 已去除）===');
-const styleMap = parseSfcStyles(styles);
-console.log(JSON.stringify(styleMap, null, 2));
+  for (const file of vueFiles) {
+    const rel = path.relative(FIXTURE, file);
+    console.log(`\n${'─'.repeat(60)}`);
+    console.log(`文件: ${rel}`);
 
-console.log('\n=== [4] 中间树 ===');
-const tree = parseVueFile(vueFile);
-console.log(JSON.stringify(tree, null, 2));
+    const html = fs.readFileSync(file, 'utf8');
+    const resp = await post({ html });
 
-console.log('\n=== [5] LLM 输入预览 ===');
-const userMessage = JSON.stringify(tree, null, 2);
-const systemPrompt = `你是设计稿解析引擎...\n${DSL_SPEC}`;
-console.log(`system prompt: ~${Math.ceil(systemPrompt.length / 4)} tokens`);
-console.log(`user message:  ~${Math.ceil(userMessage.length / 4)} tokens`);
-console.log(`合计估算:       ~${Math.ceil((systemPrompt.length + userMessage.length) / 4)} tokens`);
+    if (resp.error) {
+      console.error('错误:', resp.error);
+      continue;
+    }
+    console.log(JSON.stringify(resp.dsl, null, 2));
+  }
+}
+
+main().catch((err) => { console.error(err.message); process.exit(1); });
