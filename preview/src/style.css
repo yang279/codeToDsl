@@ -11,8 +11,18 @@ html, body {
 
 #app {
   display: flex;
-  flex-direction: column;
   height: 100vh;
+}
+
+#left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e5e7eb;
+}
+
+#right {
+  flex: 1;
 }
 
 #toolbar {
@@ -57,10 +67,6 @@ html, body {
 #fileSelect:focus {
   outline: none;
   border-color: #4f46e5;
-}
-
-#spacer {
-  flex: 1;
 }
 
 #frameWrap {

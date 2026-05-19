@@ -8,16 +8,18 @@
 </head>
 <body>
   <div id="app">
-    <div id="toolbar">
-      <button id="uploadBtn">上传文件夹</button>
-      <input type="file" id="folderInput" webkitdirectory multiple hidden />
-      <select id="fileSelect" hidden></select>
-      <span id="spacer"></span>
+    <div id="left">
+      <div id="toolbar">
+        <button id="uploadBtn">上传文件夹</button>
+        <input type="file" id="folderInput" webkitdirectory multiple hidden />
+        <select id="fileSelect" hidden></select>
+      </div>
+      <div id="frameWrap">
+        <div id="empty">上传文件夹后在此预览页面</div>
+        <iframe id="frame"></iframe>
+      </div>
     </div>
-    <div id="frameWrap">
-      <div id="empty">上传文件夹后在此预览页面</div>
-      <iframe id="frame"></iframe>
-    </div>
+    <div id="right"></div>
   </div>
   <script type="module" src="/src/main.js"></script>
 </body>
